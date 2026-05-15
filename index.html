@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的应用 - Tyron</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #ffffff;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      letter-spacing: -0.5px;
+    }
+
+    .app-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .app-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      background: #ffffff;
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .app-icon.health { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .app-icon.inventory { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+    .app-icon.assets { background: linear-gradient(135deg, #4568dc, #b06ab3); }
+    .app-icon.digital { background: linear-gradient(135deg, #667eea, #764ba2); }
+
+    .app-info h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .app-info p {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+
+    .arrow {
+      margin-left: auto;
+      color: #9ca3af;
+      font-size: 1.25rem;
+      transition: transform 0.3s ease;
+    }
+
+    .app-card:hover .arrow {
+      transform: translateX(4px);
+      color: #667eea;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 2rem; margin-bottom: 2rem; }
+      .app-card { padding: 1.25rem 1.5rem; }
+      .app-icon { width: 40px; height: 40px; font-size: 1.25rem; }
+      .app-info h2 { font-size: 1.125rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>我的应用</h1>
+    <div class="app-list">
+      <a href="#" class="app-card">
+        <div class="app-icon health">🏥</div>
+        <div class="app-info">
+          <h2>我的健康</h2>
+          <p>管理您的健康数据与记录</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div class="app-icon inventory">📦</div>
+        <div class="app-info">
+          <h2>我家的库存</h2>
+          <p>跟踪家庭物品库存状态</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div class="app-icon assets">💰</div>
+        <div class="app-info">
+          <h2>我的资产</h2>
+          <p>查看与管理个人资产</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="#" class="app-card">
+        <div class="app-icon digital">💾</div>
+        <div class="app-info">
+          <h2>我的数字仓库</h2>
+          <p>存储您的数字资产与文件</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
