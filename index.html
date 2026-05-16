@@ -165,8 +165,8 @@
 
   <script>
     const API = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const FINANCE_RSS = encodeURIComponent('https://feeds.bbci.co.uk/news/business/rss.xml');
-    const WORLD_RSS = encodeURIComponent('https://feeds.bbci.co.uk/news/world/rss.xml');
+    const FINANCE_RSS = encodeURIComponent('https://feeds.reuters.com/reuters/businessNews');
+    const WORLD_RSS = encodeURIComponent('https://feeds.reuters.com/Reuters/worldNews');
 
     async function fetchNews(rssUrl, containerId, timeId) {
       const container = document.getElementById(containerId);
