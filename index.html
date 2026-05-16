@@ -5,47 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的应用 - Tyron</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 2rem;
+      color: #1a1a2e;
     }
 
-    .container {
-      max-width: 600px;
-      width: 100%;
+    .main-layout {
+      display: flex;
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      height: calc(100vh - 4rem);
+    }
+
+    .left-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: 100%;
     }
 
     h1 {
       color: #ffffff;
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
-      text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       letter-spacing: -0.5px;
     }
 
-    .app-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .app-list { display: flex; flex-direction: column; gap: 1rem; }
 
     .app-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       border-radius: 16px;
-      padding: 1.5rem 2rem;
+      padding: 1.25rem 1.5rem;
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -63,14 +71,9 @@
     }
 
     .app-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      flex-shrink: 0;
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; flex-shrink: 0;
     }
 
     .app-icon.health { background: linear-gradient(135deg, #11998e, #38ef7d); }
@@ -80,96 +83,120 @@
     .app-icon.travel { background: linear-gradient(135deg, #f093fb, #f5576c); }
     .app-icon.documents { background: linear-gradient(135deg, #4facfe, #00f2fe); }
 
-    .app-info h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #1a1a2e;
+    .app-info h2 { font-size: 1.1rem; font-weight: 600; }
+    .app-info p { font-size: 0.8rem; color: #6b7280; margin-top: 0.2rem; }
+    .arrow { margin-left: auto; color: #9ca3af; transition: transform 0.3s ease; }
+    .app-card:hover .arrow { transform: translateX(4px); color: #667eea; }
+
+    .data-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    .app-info p {
-      font-size: 0.875rem;
-      color: #6b7280;
-      margin-top: 0.25rem;
+    .data-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb;
     }
+    .data-header h2 { font-size: 1.25rem; font-weight: 600; }
+    .update-time { font-size: 0.75rem; color: #6b7280; }
 
-    .arrow {
-      margin-left: auto;
-      color: #9ca3af;
-      font-size: 1.25rem;
-      transition: transform 0.3s ease;
+    .news-list {
+      flex: 1; overflow-y: auto; padding-right: 0.5rem;
+      scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent;
     }
+    .news-list::-webkit-scrollbar { width: 6px; }
+    .news-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
-    .app-card:hover .arrow {
-      transform: translateX(4px);
-      color: #667eea;
+    .news-item { padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+    .news-item:last-child { border-bottom: none; }
+    .news-item a {
+      text-decoration: none; color: #1a1a2e; font-weight: 500; display: block;
+      margin-bottom: 0.25rem; transition: color 0.2s; line-height: 1.4;
     }
+    .news-item a:hover { color: #667eea; }
+    .news-meta { font-size: 0.7rem; color: #9ca3af; }
+    .loading { text-align: center; color: #6b7280; padding: 2rem; }
 
-    @media (max-width: 480px) {
-      h1 { font-size: 2rem; margin-bottom: 2rem; }
-      .app-card { padding: 1.25rem 1.5rem; }
-      .app-icon { width: 40px; height: 40px; font-size: 1.25rem; }
-      .app-info h2 { font-size: 1.125rem; }
+    @media (max-width: 1024px) {
+      .main-layout { flex-direction: column; height: auto; }
+      .left-panel, .right-panel { flex: none; width: 100%; }
+      .data-section { min-height: 400px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>我的应用</h1>
-    <div class="app-list">
-      <a href="#" class="app-card">
-        <div class="app-icon health">🏥</div>
-        <div class="app-info">
-          <h2>我的健康</h2>
-          <p>管理您的健康数据与记录</p>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+  <div class="main-layout">
+    <div class="left-panel">
+      <h1>我的应用</h1>
+      <div class="app-list">
+        <a href="#" class="app-card"><div class="app-icon health">🏥</div><div class="app-info"><h2>我的健康</h2><p>管理您的健康数据与记录</p></div><span class="arrow">→</span></a>
+        <a href="#" class="app-card"><div class="app-icon inventory">📦</div><div class="app-info"><h2>我家的库存</h2><p>跟踪家庭物品库存状态</p></div><span class="arrow">→</span></a>
+        <a href="#" class="app-card"><div class="app-icon assets">💰</div><div class="app-info"><h2>我的资产</h2><p>查看与管理个人资产</p></div><span class="arrow">→</span></a>
+        <a href="#" class="app-card"><div class="app-icon digital">💾</div><div class="app-info"><h2>我的数字仓库</h2><p>存储您的数字资产与文件</p></div><span class="arrow">→</span></a>
+        <a href="#" class="app-card"><div class="app-icon travel">✈️</div><div class="app-info"><h2>我的旅行</h2><p>记录您的旅行足迹与计划</p></div><span class="arrow">→</span></a>
+        <a href="#" class="app-card"><div class="app-icon documents">🪪</div><div class="app-info"><h2>我的证件</h2><p>安全保管重要证件信息</p></div><span class="arrow">→</span></a>
+      </div>
+    </div>
 
-      <a href="#" class="app-card">
-        <div class="app-icon inventory">📦</div>
-        <div class="app-info">
-          <h2>我家的库存</h2>
-          <p>跟踪家庭物品库存状态</p>
+    <div class="right-panel">
+      <div class="data-section">
+        <div class="data-header">
+          <h2>🌍 全球金融动态</h2>
+          <span id="finance-time" class="update-time"></span>
         </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <a href="#" class="app-card">
-        <div class="app-icon assets">💰</div>
-        <div class="app-info">
-          <h2>我的资产</h2>
-          <p>查看与管理个人资产</p>
+        <div id="finance-list" class="news-list"><div class="loading">数据加载中...</div></div>
+      </div>
+      <div class="data-section">
+        <div class="data-header">
+          <h2>📰 全球时政要闻</h2>
+          <span id="world-time" class="update-time"></span>
         </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <a href="#" class="app-card">
-        <div class="app-icon digital">💾</div>
-        <div class="app-info">
-          <h2>我的数字仓库</h2>
-          <p>存储您的数字资产与文件</p>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <a href="#" class="app-card">
-        <div class="app-icon travel">✈️</div>
-        <div class="app-info">
-          <h2>我的旅行</h2>
-          <p>记录您的旅行足迹与计划</p>
-        </div>
-        <span class="arrow">→</span>
-      </a>
-
-      <a href="#" class="app-card">
-        <div class="app-icon documents">🪪</div>
-        <div class="app-info">
-          <h2>我的证件</h2>
-          <p>安全保管重要证件信息</p>
-        </div>
-        <span class="arrow">→</span>
-      </a>
+        <div id="world-list" class="news-list"><div class="loading">数据加载中...</div></div>
+      </div>
     </div>
   </div>
+
+  <script>
+    const API = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    const FINANCE_RSS = encodeURIComponent('https://feeds.bbci.co.uk/news/business/rss.xml');
+    const WORLD_RSS = encodeURIComponent('https://feeds.bbci.co.uk/news/world/rss.xml');
+
+    async function fetchNews(rssUrl, containerId, timeId) {
+      const container = document.getElementById(containerId);
+      const timeEl = document.getElementById(timeId);
+      try {
+        const res = await fetch(`${API}${rssUrl}`);
+        const data = await res.json();
+        if (data.status === 'ok') {
+          container.innerHTML = data.items.slice(0, 15).map(item => `
+            <div class="news-item">
+              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+              <div class="news-meta">${new Date(item.pubDate).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
+            </div>
+          `).join('');
+          timeEl.textContent = `更新于 ${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}`;
+        } else {
+          container.innerHTML = '<div class="loading">数据源暂时不可用</div>';
+        }
+      } catch (e) {
+        container.innerHTML = '<div class="loading">网络请求失败，请检查连接</div>';
+      }
+    }
+
+    function updateAll() {
+      fetchNews(FINANCE_RSS, 'finance-list', 'finance-time');
+      fetchNews(WORLD_RSS, 'world-list', 'world-time');
+    }
+
+    updateAll();
+    setInterval(updateAll, 15 * 60 * 1000);
+  </script>
 </body>
 </html>
