@@ -177,7 +177,7 @@
           container.innerHTML = items.map(item => `
             <div class="news-item">
               <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
-              <div class="news-meta">${item.ctime || ''}</div>
+              <div class="news-meta">${item.ctime ? new Date(Number(item.ctime) * 1000).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : ''}</div>
             </div>
           `).join('');
           timeEl.textContent = `更新于 ${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}`;
