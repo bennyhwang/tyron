@@ -164,21 +164,20 @@
   </div>
 
   <script>
-    const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const FINANCE_RSS = 'https://www.zaobao.com.sg/rss/finance.xml';
-    const WORLD_RSS = 'https://www.zaobao.com.sg/rss/news.xml';
+    const NEWS_BASE = 'https://bennyhwang.github.io/outdoor/news/';
 
-    async function fetchNews(rssUrl, containerId, timeId) {
+    async function fetchNews(file, containerId, timeId) {
       const container = document.getElementById(containerId);
       const timeEl = document.getElementById(timeId);
       try {
-        const res = await fetch(RSS2JSON + encodeURIComponent(rssUrl));
-        const data = await res.json();
-        if (data.status === 'ok') {
-          container.innerHTML = data.items.slice(0, 15).map(item => `
+        const res = await fetch(NEWS_BASE + file);
+        const json = await res.json();
+        const items = json.result?.data;
+        if (items && items.length > 0) {
+          container.innerHTML = items.map(item => `
             <div class="news-item">
-              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-              <div class="news-meta">${new Date(item.pubDate).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
+              <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+              <div class="news-meta">${item.ctime ? new Date(Number(item.ctime) * 1000).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : ''}</div>
             </div>
           `).join('');
           timeEl.textContent = `更新于 ${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}`;
@@ -191,8 +190,8 @@
     }
 
     function updateAll() {
-      fetchNews(FINANCE_RSS, 'finance-list', 'finance-time');
-      fetchNews(WORLD_RSS, 'world-list', 'world-time');
+      fetchNews('finance.json', 'finance-list', 'finance-time');
+      fetchNews('world.json', 'world-list', 'world-time');
     }
 
     updateAll();
