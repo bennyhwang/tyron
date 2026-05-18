@@ -164,21 +164,20 @@
   </div>
 
   <script>
-    const API = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const FINANCE_RSS = encodeURIComponent('https://feeds.reuters.com/reuters/businessNews');
-    const WORLD_RSS = encodeURIComponent('https://feeds.reuters.com/Reuters/worldNews');
+    const SINA_API = 'https://feed.mix.sina.com.cn/api/roll/get?pageid=153&num=15&lid=';
 
-    async function fetchNews(rssUrl, containerId, timeId) {
+    async function fetchNews(lid, containerId, timeId) {
       const container = document.getElementById(containerId);
       const timeEl = document.getElementById(timeId);
       try {
-        const res = await fetch(`${API}${rssUrl}`);
-        const data = await res.json();
-        if (data.status === 'ok') {
-          container.innerHTML = data.items.slice(0, 15).map(item => `
+        const res = await fetch(`${SINA_API}${lid}`, { mode: 'cors' });
+        const json = await res.json();
+        const items = json.result?.data;
+        if (items && items.length > 0) {
+          container.innerHTML = items.map(item => `
             <div class="news-item">
-              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-              <div class="news-meta">${new Date(item.pubDate).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
+              <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+              <div class="news-meta">${item.ctime || ''}</div>
             </div>
           `).join('');
           timeEl.textContent = `更新于 ${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}`;
@@ -191,8 +190,8 @@
     }
 
     function updateAll() {
-      fetchNews(FINANCE_RSS, 'finance-list', 'finance-time');
-      fetchNews(WORLD_RSS, 'world-list', 'world-time');
+      fetchNews('2509', 'finance-list', 'finance-time');
+      fetchNews('2510', 'world-list', 'world-time');
     }
 
     updateAll();
