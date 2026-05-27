@@ -124,6 +124,31 @@
     .news-meta { font-size: 0.7rem; color: #9ca3af; }
     .loading { text-align: center; color: #6b7280; padding: 2rem; }
 
+    .video-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      flex: none;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+
     @media (max-width: 1024px) {
       .main-layout { flex-direction: column; height: auto; }
       .left-panel, .right-panel { flex: none; width: 100%; }
@@ -152,6 +177,14 @@
           <span id="finance-time" class="update-time"></span>
         </div>
         <div id="finance-list" class="news-list"><div class="loading">数据加载中...</div></div>
+      </div>
+      <div class="video-section">
+        <div class="data-header">
+          <h2>▶️ 推荐视频</h2>
+        </div>
+        <div class="video-wrapper">
+          <iframe src="https://www.youtube.com/embed/T0r-ilc5YK0" frameborder="0" allowfullscreen></iframe>
+        </div>
       </div>
       <div class="data-section">
         <div class="data-header">
