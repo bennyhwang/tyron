@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -165,7 +165,7 @@
         <a href="#" class="app-card"><div class="app-icon inventory">📦</div><div class="app-info"><h2>我家的库存</h2><p>跟踪家庭物品库存状态</p></div><span class="arrow">→</span></a>
         <a href="#" class="app-card"><div class="app-icon assets">💰</div><div class="app-info"><h2>我的资产</h2><p>查看与管理个人资产</p></div><span class="arrow">→</span></a>
         <a href="#" class="app-card"><div class="app-icon digital">💾</div><div class="app-info"><h2>我的数字仓库</h2><p>存储您的数字资产与文件</p></div><span class="arrow">→</span></a>
-        <a href="#" class="app-card"><div class="app-icon travel">✈️</div><div class="app-info"><h2>我的旅行</h2><p>记录您的旅行足迹与计划</p></div><span class="arrow">→</span></a>
+        <a href="https://bennyhwang.github.io/outdoor/" target="_blank" class="app-card"><div class="app-icon travel">✈️</div><div class="app-info"><h2>我的旅行</h2><p>户外探险装备清单</p></div><span class="arrow">→</span></a>
         <a href="#" class="app-card"><div class="app-icon documents">🪪</div><div class="app-info"><h2>我的证件</h2><p>安全保管重要证件信息</p></div><span class="arrow">→</span></a>
       </div>
     </div>
@@ -197,21 +197,20 @@
   </div>
 
   <script>
-    const API = 'https://api.rss2json.com/v1/api.json?rss_url=';
-    const FINANCE_RSS = encodeURIComponent('https://feeds.reuters.com/reuters/businessNews');
-    const WORLD_RSS = encodeURIComponent('https://feeds.reuters.com/Reuters/worldNews');
+    const NEWS_BASE = 'https://bennyhwang.github.io/outdoor/news/';
 
-    async function fetchNews(rssUrl, containerId, timeId) {
+    async function fetchNews(file, containerId, timeId) {
       const container = document.getElementById(containerId);
       const timeEl = document.getElementById(timeId);
       try {
-        const res = await fetch(`${API}${rssUrl}`);
-        const data = await res.json();
-        if (data.status === 'ok') {
-          container.innerHTML = data.items.slice(0, 15).map(item => `
+        const res = await fetch(NEWS_BASE + file);
+        const json = await res.json();
+        const items = json.result?.data;
+        if (items && items.length > 0) {
+          container.innerHTML = items.map(item => `
             <div class="news-item">
-              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-              <div class="news-meta">${new Date(item.pubDate).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</div>
+              <a href="${item.url}" target="_blank" rel="noopener">${item.title}</a>
+              <div class="news-meta">${item.ctime ? new Date(Number(item.ctime) * 1000).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : ''}</div>
             </div>
           `).join('');
           timeEl.textContent = `更新于 ${new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'})}`;
@@ -224,8 +223,8 @@
     }
 
     function updateAll() {
-      fetchNews(FINANCE_RSS, 'finance-list', 'finance-time');
-      fetchNews(WORLD_RSS, 'world-list', 'world-time');
+      fetchNews('finance.json', 'finance-list', 'finance-time');
+      fetchNews('world.json', 'world-list', 'world-time');
     }
 
     updateAll();
@@ -233,3 +232,4 @@
   </script>
 </body>
 </html>
+
